@@ -74,7 +74,7 @@
 > realizó de forma equivalente conduciendo la app real con `curl` (cookies + antiforgery).
 
 - [ ] 10.1 Conectar el Playwright MCP (pendiente; se usó `curl` como alternativa)
-- [ ] 10.2 (Opcional) Unit tests del servicio de login/bloqueo con `IClock` fake
+- [x] 10.2 Unit tests del servicio de login/bloqueo con `IClock` fake (`Ceplan.Tests`, 10 casos)
 - [x] 10.3 Verificado: login exitoso → redirige a perfil con datos del usuario semilla
 - [x] 10.4 Verificado: credenciales inválidas → error inline ("Usuario o contraseña incorrectos.")
 - [x] 10.5 Verificado: 5 intentos fallidos → pantalla "Cuenta bloqueada temporalmente"
