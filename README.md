@@ -49,6 +49,8 @@ Parámetros configurables en `appsettings.json` → sección `Lockout` (umbral e
 
 ## Puesta en marcha (local)
 
+### Primera vez (configuración inicial)
+
 ```bash
 # 1. Levantar SQL Server (crea .env desde la plantilla y elige una contraseña fuerte para 'sa')
 cp .env.example .env
@@ -68,6 +70,24 @@ dotnet run --project src/Ceplan.Web
 La app queda en `https://localhost:5443` (o el puerto que indique la consola).
 
 > La contraseña de `MSSQL_SA_PASSWORD` (Docker) y la del connection string **deben coincidir**.
+
+### Cada vez que quieras iniciar el proyecto (Windows / PowerShell)
+
+El repositorio incluye un script `run.ps1` que deja el .NET SDK en el PATH de la
+sesión, levanta SQL Server (Docker) y arranca la app en un solo paso:
+
+```powershell
+cd C:\dev\AHVA-TechChallenge
+.\run.ps1
+```
+
+Luego abre 👉 **https://localhost:5443/Account/Activation**. Para detener la app: `Ctrl + C`.
+
+> **Nota (una sola vez):** si PowerShell bloquea la ejecución de scripts, habilítalos con
+> `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` y vuelve a ejecutar `.\run.ps1`.
+>
+> Si prefieres usar `dotnet` directamente, primero asegúrate de que el SDK esté en el PATH
+> (`$env:Path = "$HOME\.dotnet;$env:Path"`) o abre una terminal nueva tras instalarlo.
 
 ### Credenciales del usuario semilla (para el login)
 
