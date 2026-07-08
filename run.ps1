@@ -4,6 +4,10 @@
 
 $ErrorActionPreference = "Stop"
 
+# 0) Situarse en la carpeta del script para que las rutas relativas funcionen
+#    aunque se ejecute desde otra ubicacion.
+Set-Location -Path $PSScriptRoot
+
 # 1) .NET SDK local (por si no esta en el PATH de la terminal)
 $env:DOTNET_ROOT = "$HOME\.dotnet"
 if ($env:Path -notlike "*$env:DOTNET_ROOT*") {
