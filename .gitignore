@@ -1,0 +1,65 @@
+# ---------------------------------------------------------------------------
+# Secretos / variables de entorno  —  NUNCA subir a GitHub
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.env
+secrets.json
+appsettings.*.local.json
+appsettings.Local.json
+appsettings.Secrets.json
+# appsettings.Development.json contiene la connection string local; se versiona una plantilla, no este
+**/appsettings.Development.json
+*.pfx
+*.key
+*.pem
+
+# ---------------------------------------------------------------------------
+# .NET / build
+# ---------------------------------------------------------------------------
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+.vs/
+*.userprefs
+project.lock.json
+artifacts/
+
+# EF Core
+*.db
+*.db-shm
+*.db-wal
+
+# ---------------------------------------------------------------------------
+# Front-end / TypeScript
+# ---------------------------------------------------------------------------
+node_modules/
+npm-debug.log*
+*.tsbuildinfo
+# Output de TypeScript: se versiona el bundle compilado (app.js) para que la app
+# corra sin Node; solo ignoramos sourcemaps y el cache incremental de tsc.
+wwwroot/js/*.js.map
+*.tsbuildinfo
+
+# ---------------------------------------------------------------------------
+# Docker / local
+# ---------------------------------------------------------------------------
+docker-data/
+mssql-data/
+
+# ---------------------------------------------------------------------------
+# IDE / OS
+# ---------------------------------------------------------------------------
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db

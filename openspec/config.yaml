@@ -1,0 +1,107 @@
+schema: spec-driven
+
+context: |
+  # Proyecto: Prueba técnica AHVA — Portal de acceso CEPLAN
+
+  Prueba técnica para el puesto de Programador web (empresa AHVA, Perú).
+  Objetivo: replicar lo más fielmente posible un diseño de Figma (portal de
+  acceso de una app gubernamental peruana, marca CEPLAN / PCM) e implementar la
+  lógica de validación de usuario, control de errores y flujo de mensajes.
+  Entrega: local, demostrada por grabación de pantalla. Deadline: 2026-07-08 20:00 (hora Venezuela).
+
+  ## Principios de ingeniería (RESTRICCIÓN DURA — no negociable)
+  El código DEBE priorizar: mantenibilidad, fuerte tipado, separación de
+  responsabilidades, SOLID, Clean Architecture, Dependency Injection, manejo
+  explícito de errores, programación asíncrona (async/await), seguridad por
+  defecto y legibilidad. NO se permite generar código "rápido" si compromete la
+  arquitectura. Cada decisión técnica debe justificarse con trade-offs
+  documentados (en design.md) y alinearse con estas especificaciones ANTES de
+  implementarse. Flujo estrictamente spec-driven: proposal → design → tasks → código.
+
+  Implicaciones concretas:
+  - Solución en capas estilo Clean Architecture: Domain (entidades + reglas +
+    interfaces), Application (casos de uso/servicios), Infrastructure (EF Core,
+    hashing, repos), Web (MVC controllers/vistas). Web y demás capas dependen
+    hacia adentro (regla de dependencias).
+  - DI vía el contenedor integrado de ASP.NET Core; nada de `new` para
+    dependencias con lógica. Interfaces para repos y servicios.
+  - Errores explícitos: Result/errores tipados o excepciones de dominio; nada de
+    tragar excepciones. Validación en el borde.
+  - Todo IO (EF Core, etc.) asíncrono con async/await y CancellationToken donde aplique.
+  - Seguridad por defecto: hashing PBKDF2, cookies HttpOnly/SameSite, antiforgery,
+    mensajes de error genéricos que no filtren si el usuario existe.
+  - Priorizar orden de tareas para tener algo ejecutable pronto SIN sacrificar la
+    estructura (el andamiaje ya nace en capas).
+
+  ## Stack técnico (decidido)
+  - Framework: ASP.NET Core MVC (.NET 8 LTS)
+  - Vistas: Razor + Bootstrap 5
+  - Cliente: TypeScript compilado con tsc (sin bundler) — cumple el requisito
+    de "al menos una interacción del lado del cliente"
+  - Acceso a datos: EF Core Code-First + migraciones
+  - Base de datos: SQL Server en Docker (contenedor local, docker-compose)
+  - Autenticación: cookie auth propia (SIN ASP.NET Core Identity) contra una
+    tabla Users propia; contraseñas hasheadas con PasswordHasher<T> (PBKDF2)
+
+  ## Alcance acordado ("Núcleo fiel + mensajes")
+  Incluye:
+  1. Pantalla de activación de cuenta ("¡Bienvenida, July!") con botón a login.
+  2. Login con toggle DNI / CE, campo Usuario, campo Contraseña con mostrar/ocultar,
+     link "¿Olvidó su contraseña?" (placeholder), link de soporte.
+  3. Validación de credenciales contra la tabla Users (hash).
+  4. Contador de validaciones fallidas (CVF) + bloqueo temporal.
+  5. Estados de error inline (bordes/textos rojos) y toasts de mensajes.
+  6. Página de perfil de usuario (Perfil de usuario) tras login exitoso, con
+     tabs (Información básica / Responsabilidades / Historial de responsabilidades),
+     sidebar y topbar.
+  Stretch (solo si sobra tiempo):
+  7. Timeout de sesión por inactividad con modal "Extender sesión" (tiempos
+     configurables cortos vía appsettings para poder grabarlo; valores reales
+     documentados: 20 min inactividad / 49s countdown).
+
+  ## Reglas de negocio confirmadas
+  - CVF (Contador de Validaciones Fallidas): cada credencial inválida incrementa
+    el contador y muestra error inline. Al llegar a 5 intentos fallidos, la cuenta
+    se bloquea temporalmente 15 minutos ("Cuenta bloqueada temporalmente"). Al
+    vencer los 15 minutos el contador se resetea y se permite reintentar.
+  - Si la cuenta ya está bloqueada, el login muestra la pantalla de bloqueo sin
+    validar credenciales.
+  - Login exitoso resetea el CVF.
+  - Datos semilla: 1 usuario del diseño — July Camila Mendoza Quispe, DNI 07079879,
+    Administrador de Recursos, CAS, contratación 09/03/2015, test@minsa.gob.pe —
+    con contraseña conocida y hasheada. El bloqueo se demuestra en vivo (5 fallos).
+    Contraseña semilla acordada: Ceplan2025$ (hasheada PBKDF2; en claro solo en README para el video).
+  - Perfil: las tabs "Responsabilidades" e "Historial de responsabilidades" se
+    renderizan con estado vacío/placeholder; foco de datos en "Información básica".
+
+  ## Sistema de diseño (del Figma, en design/figma-captures/)
+  - Header: barra roja profunda CEPLAN (~#7A1620) con ícono de ayuda "?".
+  - Botón primario: azul (~#2563EB); estado deshabilitado azul claro.
+  - Error: bordes y texto rojos + mensajes "Usuario incorrecto" / "Contraseña incorrecta".
+  - Info: toast con borde/ícono azul (ej. sesión expirada).
+  - Warning: ícono y botón ámbar (modal de sesión).
+  - Fondo: gris claro con marca de agua andina (Machu Picchu + llama).
+  - Footer: logos gobierno (PCM — Presidencia del Consejo de Ministros + CEPLAN).
+  - Perfil: sidebar oscuro (home / gráfico / documento / búsqueda), topbar con
+    notificaciones y usuario ("Osorio Montes, Adriana / Operador").
+  - Fuente: sans; usar alternativa libre cercana (Poppins u Open Sans) si el
+    recurso original no está disponible (permitido por las instrucciones).
+  - Viewport de referencia: 1440 × 900.
+
+  ## Requisitos explícitos del email (checklist de evaluación)
+  - Framework ASP.NET Core ✓
+  - Front-end Bootstrap ✓
+  - Al menos una interacción JS/TS del lado del cliente ✓ (TypeScript)
+  - Base de datos SQL Server con tabla de usuarios para validar login ✓
+  - Lógica: validación de usuario, control de errores, flujo de mensajes ✓
+  - Ejecución local ✓
+  - Fidelidad al diseño de Figma ✓
+
+rules:
+  proposal:
+    - Mantener el enfoque en el alcance "Núcleo fiel + mensajes"; marcar el timeout de sesión como stretch.
+    - Referenciar los requisitos del email como criterios de aceptación.
+  tasks:
+    - Ordenar las tareas para tener algo ejecutable pronto (scaffolding + login) antes de pulir UI.
+    - Incluir tarea de datos semilla y de configuración de Docker/SQL Server.
+    - Cada tarea debe ser un bloque de trabajo acotado (idealmente < 2h).
