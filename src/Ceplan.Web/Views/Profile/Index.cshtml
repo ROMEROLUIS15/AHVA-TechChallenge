@@ -8,7 +8,23 @@
 
 <div class="profile-card">
     <div class="profile-head">
-        <div class="profile-avatar">@Html.Raw(IconSvg.User)</div>
+        <div class="profile-avatar">
+            @if (!string.IsNullOrEmpty(Model.AvatarPath))
+            {
+                <img src="@Model.AvatarPath" alt="Foto de perfil" class="avatar-img" />
+            }
+            else
+            {
+                @Html.Raw(IconSvg.User)
+            }
+            <form asp-controller="Profile" asp-action="UploadAvatar" method="post" enctype="multipart/form-data" id="avatarForm">
+                @Html.AntiForgeryToken()
+                <label class="avatar-edit" title="Cambiar foto de perfil">
+                    @Html.Raw(IconSvg.Camera)
+                    <input type="file" name="avatar" accept="image/png,image/jpeg,image/webp" data-avatar-input hidden />
+                </label>
+            </form>
+        </div>
         <div>
             <div class="p-name">
                 @Model.FullName

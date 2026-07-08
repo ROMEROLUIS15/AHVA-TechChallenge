@@ -129,6 +129,19 @@
         extendBtn === null || extendBtn === void 0 ? void 0 : extendBtn.addEventListener("click", extend);
         startInactivity();
     }
+    /** Carga de foto de perfil: al elegir un archivo, envía el formulario automáticamente. */
+    function initAvatarUpload() {
+        const input = document.querySelector("[data-avatar-input]");
+        if (!input) {
+            return;
+        }
+        input.addEventListener("change", () => {
+            var _a;
+            if (input.files && input.files.length > 0) {
+                (_a = input.form) === null || _a === void 0 ? void 0 : _a.submit();
+            }
+        });
+    }
     /** Auto-cierre de los toasts de aviso (p. ej. sesión expirada) tras unos segundos. */
     function initToasts() {
         const toasts = document.querySelectorAll(".flash-toasts .alert-ceplan");
@@ -144,6 +157,7 @@
         initLoginValidation();
         initProfileTabs();
         initSessionTimeout();
+        initAvatarUpload();
         initToasts();
     });
 })();

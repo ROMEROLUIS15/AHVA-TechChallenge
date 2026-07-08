@@ -48,6 +48,7 @@ public class User
     public string ContractType { get; private set; }     // Tipo de Contratación (p. ej. "CAS")
     public DateOnly ContractDate { get; private set; }   // Fecha de contratación
     public bool IsActive { get; private set; }           // Estado "Activo"
+    public string? AvatarPath { get; private set; }      // Ruta web de la foto de perfil (opcional)
 
     // --- Estado de seguridad (bloqueo por intentos) ---
     public int FailedAttempts { get; private set; }
@@ -141,4 +142,7 @@ public class User
         FailedAttempts = 0;
         LockoutEndUtc = null;
     }
+
+    /// <summary>Establece (o quita, con null) la ruta de la foto de perfil.</summary>
+    public void SetAvatar(string? avatarPath) => AvatarPath = avatarPath;
 }

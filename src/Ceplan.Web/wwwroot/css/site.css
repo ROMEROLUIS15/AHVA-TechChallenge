@@ -247,7 +247,15 @@ body {
 
 .profile-card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:22px 26px; }
 .profile-head { display:flex; align-items:center; gap:16px; margin-bottom:6px; }
-.profile-avatar { width:72px; height:72px; border-radius:50%; background:#cfe0f5; display:flex; align-items:center; justify-content:center; color:#5b7fb4; }
+.profile-avatar { position:relative; width:72px; height:72px; border-radius:50%; background:#cfe0f5; display:flex; align-items:center; justify-content:center; color:#5b7fb4; }
+.profile-avatar .avatar-img { width:100%; height:100%; border-radius:50%; object-fit:cover; }
+.profile-avatar form { position:absolute; inset:0; pointer-events:none; }
+.profile-avatar .avatar-edit {
+  position:absolute; right:-2px; bottom:-2px; width:24px; height:24px; border-radius:50%;
+  background:var(--primary); color:#fff; display:inline-flex; align-items:center; justify-content:center;
+  cursor:pointer; border:2px solid #fff; box-shadow:0 1px 3px rgba(0,0,0,.25); pointer-events:auto;
+}
+.profile-avatar .avatar-edit:hover { background:var(--primary-hover); }
 .profile-head .p-name { font-size:18px; font-weight:700; display:flex; align-items:center; gap:10px; }
 .badge-active { background:#e7f6e8; color:var(--ok); font-size:11px; font-weight:600; padding:2px 10px; border-radius:12px; }
 .profile-head .p-role { color:var(--muted); font-size:13px; margin-top:2px; }

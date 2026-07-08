@@ -35,6 +35,8 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.BirthDate).HasColumnType("date");
         builder.Property(u => u.ContractDate).HasColumnType("date");
 
+        builder.Property(u => u.AvatarPath).HasMaxLength(400);
+
         builder.Property(u => u.IsActive).IsRequired();
         builder.Property(u => u.FailedAttempts).IsRequired();
         builder.Property(u => u.LockoutEndUtc);

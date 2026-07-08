@@ -1,7 +1,9 @@
 using Ceplan.Application.Abstractions;
 using Ceplan.Application.Options;
+using Ceplan.Application.Profile;
 using Ceplan.Infrastructure;
 using Ceplan.Infrastructure.Persistence;
+using Ceplan.Web.Storage;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Options;
 
@@ -15,6 +17,10 @@ var connectionString = builder.Configuration.GetConnectionString("Default")
     ?? throw new InvalidOperationException(
         "ConnectionStrings:Default no configurada. Defínela en User Secrets o variables de entorno.");
 builder.Services.AddInfrastructure(connectionString);
+
+// --- Foto de perfil (extra): almacenamiento web + caso de uso ---
+builder.Services.AddScoped<IAvatarStorage, WebAvatarStorage>();
+builder.Services.AddScoped<IProfileImageService, ProfileImageService>();
 
 // --- Opciones de bloqueo (no sensibles, desde appsettings) ---
 builder.Services.Configure<LockoutOptions>(builder.Configuration.GetSection(LockoutOptions.SectionName));
