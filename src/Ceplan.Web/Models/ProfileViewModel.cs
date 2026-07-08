@@ -25,6 +25,7 @@ public sealed class ProfileViewModel
     public string? SecondaryPhone { get; init; }
     public required string ContractType { get; init; }
     public required string ContractDate { get; init; }
+    public string? AvatarPath { get; init; }
 
     public static ProfileViewModel FromUser(User user) => new()
     {
@@ -45,6 +46,7 @@ public sealed class ProfileViewModel
         MobilePhone = user.MobilePhone,
         SecondaryPhone = user.SecondaryPhone,
         ContractType = user.ContractType,
-        ContractDate = user.ContractDate.ToString("dd / MM / yyyy")
+        ContractDate = user.ContractDate.ToString("dd / MM / yyyy"),
+        AvatarPath = user.AvatarPath
     };
 }

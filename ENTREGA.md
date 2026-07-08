@@ -22,8 +22,9 @@ ASP.NET Core MVC, EF Core 8 (Code-First + migraciones), SQL Server en Docker,
 Bootstrap 5 + CSS propio para replicar el tema, TypeScript (compilado con `tsc`) para
 las interacciones de cliente (mostrar/ocultar contraseña, validación en vivo, tabs,
 modal de expiración de sesión), y OpenSpec para el flujo spec-driven. Añadí pruebas
-unitarias (xUnit) del login y la política de bloqueo usando un reloj falso. Verifiqué
-el flujo de extremo a extremo (login correcto → perfil, credenciales inválidas, bloqueo
-al 5.º intento, acceso protegido).
+en tres niveles: **unitarias** (xUnit, con reloj falso) del login/bloqueo y de la foto
+de perfil, **de integración** (EF Core sobre SQLite + almacenamiento real en disco) y
+**E2E** (Playwright, conduciendo la app real). Verifiqué el flujo de extremo a extremo
+(login correcto → perfil, credenciales inválidas, bloqueo al 5.º intento, acceso protegido).
 
 **Usuario de prueba:** DNI `07079879` · contraseña `Ceplan2025$`.

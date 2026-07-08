@@ -18,37 +18,47 @@ foco en arquitectura limpia, tipado fuerte y seguridad por defecto.
 
 ## Arquitectura (Clean Architecture)
 
-Cuatro proyectos de producción con la regla de dependencias hacia adentro, más un
-proyecto de pruebas:
+Cuatro proyectos de producción con la regla de dependencias hacia adentro, más dos
+proyectos de pruebas (unitarias e integración) y las pruebas E2E:
 
 ```
 src/
 ├── Ceplan.Domain/                 # Entidades y reglas de negocio (sin dependencias externas)
-│   ├── Entities/User.cs           #   entidad con las reglas de bloqueo encapsuladas
+│   ├── Entities/User.cs           #   reglas de bloqueo encapsuladas + foto de perfil (AvatarPath)
 │   └── Enums/DocumentType.cs      #   DNI / CE
 │
 ├── Ceplan.Application/            # Casos de uso + puertos (depende solo de Domain)
-│   ├── Abstractions/              #   IUserRepository, IPasswordHasher, IClock
+│   ├── Abstractions/              #   IUserRepository, IPasswordHasher, IClock, IAvatarStorage
 │   ├── Authentication/            #   AuthenticationService, LoginResult (resultado tipado)
+│   ├── Profile/                   #   ProfileImageService (carga de foto), AvatarUpdateResult
 │   └── Options/                   #   LockoutOptions, SessionTimeoutOptions
 │
 ├── Ceplan.Infrastructure/        # Implementaciones (depende de Application/Domain)
 │   ├── Persistence/               #   AppDbContext, EfUserRepository, DbSeeder, Migrations
 │   ├── Security/                  #   PasswordHasherAdapter (PBKDF2)
+│   ├── Storage/                   #   FileSystemAvatarStorage (guarda las fotos de perfil)
 │   ├── Time/SystemClock.cs
 │   └── DependencyInjection.cs     #   wiring de DI
 │
 ├── Ceplan.Web/                   # MVC — composición (depende de Application e Infrastructure)
-│   ├── Controllers/               #   Account, Profile, Home
+│   ├── Controllers/               #   Account, Profile (incl. UploadAvatar), Home
 │   ├── Models/                    #   ViewModels
 │   ├── Views/                     #   Razor (Account, Profile, Home, Shared)
 │   ├── Scripts/app.ts             #   TypeScript → wwwroot/js/app.js
-│   ├── wwwroot/                   #   css/site.css, img/ (escudo-peru.svg, ceplan-logo.png), js/
+│   ├── wwwroot/                   #   css/site.css, img/ (escudo, logo), uploads/ (fotos, no versionadas)
 │   └── Program.cs                 #   pipeline, cookie auth, migración + seed al arrancar
 │
-└── Ceplan.Tests/                 # xUnit — pruebas de AuthenticationService (login/CVF/bloqueo)
-    ├── AuthenticationServiceTests.cs
-    └── Fakes/                     #   FakeClock, FakePasswordHasher, FakeUserRepository, TestUser
+├── Ceplan.Tests/                 # xUnit (unitarias): AuthenticationService y ProfileImageService
+│   ├── AuthenticationServiceTests.cs
+│   ├── ProfileImageServiceTests.cs
+│   └── Fakes/                     #   dobles en memoria (Clock, Hasher, Repository, AvatarStorage)
+│
+└── Ceplan.IntegrationTests/      # xUnit (integración): EF Core (SQLite) + storage real en disco
+    └── AvatarUploadIntegrationTests.cs
+
+tests/
+└── e2e/                          # Playwright (E2E): conduce la app real en el navegador
+    └── avatar-upload.e2e.js
 ```
 
 Dependencias hacia adentro: `Web → Application/Infrastructure`, `Infrastructure → Application → Domain`.
@@ -61,6 +71,8 @@ Dependencias hacia adentro: `Web → Application/Infrastructure`, `Infrastructur
 - **Bloqueo por intentos fallidos (CVF):** al 5.º fallo la cuenta se bloquea 15 minutos
   ("Cuenta bloqueada temporalmente"); el bloqueo expira y el contador se resetea.
 - **Perfil de usuario** protegido (requiere sesión) con tabs, sidebar y topbar.
+- **Foto de perfil (extra):** carga y actualización de la imagen (validación de tamaño y
+  formato; el archivo se guarda con nombre generado en servidor, sin path traversal).
 - **Timeout de sesión por inactividad:** aviso con cuenta regresiva ("Extender sesión") y,
   al expirar, cierre de sesión con vuelta al login (toast). Detección en cliente (TypeScript).
 - **Control de errores** (manejo global + página de error) y **flujo de mensajes** (flash + estados inline).
@@ -130,15 +142,42 @@ Para detener la app: `Ctrl + C`.
 
 ## Pruebas
 
-Pruebas unitarias del caso de uso de login y la política de bloqueo (xUnit + dobles en
-memoria y un `IClock` falso, sin BD ni esperas reales):
+Tres niveles de prueba:
+
+### Unitarias (`Ceplan.Tests`, xUnit)
+
+Lógica de negocio con dobles en memoria y un `IClock` falso (sin BD ni disco ni esperas reales):
 
 ```bash
 dotnet test src/Ceplan.Tests
 ```
 
-Cubren: credenciales válidas/inválidas, usuario inexistente/inactivo, contador de fallos (CVF),
-bloqueo al 5.º intento, rechazo sin validar contraseña estando bloqueado y expiración del bloqueo.
+- **Login / bloqueo:** credenciales válidas/inválidas, usuario inexistente/inactivo, contador
+  de fallos (CVF), bloqueo al 5.º intento, rechazo sin validar contraseña estando bloqueado y
+  expiración del bloqueo.
+- **Foto de perfil:** validación de tamaño (≤ 2 MB) y formato (JPG/PNG/WEBP), éxito y usuario inexistente.
+
+### Integración (`Ceplan.IntegrationTests`, xUnit)
+
+Componentes reales trabajando juntos —EF Core sobre **SQLite en memoria** + repositorio real +
+`FileSystemAvatarStorage` contra el **sistema de archivos** (carpeta temporal)—:
+
+```bash
+dotnet test src/Ceplan.IntegrationTests
+```
+
+Verifica que al subir una foto se escribe el archivo físico, la ruta se persiste en la base y
+que al reemplazarla se borra la anterior.
+
+### E2E (`tests/e2e`, Playwright)
+
+Conduce la **app real** en un navegador (requiere la app corriendo). Ver `tests/e2e/README.md`:
+
+```bash
+cd tests/e2e && npm install && npx playwright install chromium && npm run test:avatar
+```
+
+Ejecutar unitarias + integración de una vez: `dotnet test` (toda la solución).
 
 ## Recompilar el TypeScript (opcional)
 
