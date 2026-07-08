@@ -35,7 +35,7 @@
             <div class="input-icon @invalidClass">
                 <span class="lead-icon">@Html.Raw(IconSvg.Lock)</span>
                 <input asp-for="Password" type="password" placeholder="Ingresar contraseña" autocomplete="current-password" data-password-input />
-                <button type="button" class="toggle-eye" data-toggle-password aria-label="Mostrar u ocultar contraseña">@Html.Raw(IconSvg.Eye)</button>
+                <button type="button" class="toggle-eye" data-toggle-password aria-label="Mostrar u ocultar contraseña" aria-pressed="false"><span class="eye-hidden">@Html.Raw(IconSvg.EyeOff)</span><span class="eye-shown">@Html.Raw(IconSvg.Eye)</span></button>
             </div>
             <span asp-validation-for="Password" class="field-validation-error"></span>
         </div>

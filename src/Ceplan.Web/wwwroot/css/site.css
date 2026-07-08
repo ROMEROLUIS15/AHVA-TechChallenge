@@ -141,6 +141,11 @@ body {
   position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
   background: transparent; border: 0; color: #9aa2ad; cursor: pointer; display:flex; padding:4px;
 }
+.input-icon .toggle-eye span { display: flex; }
+/* Estado inicial: contraseña oculta -> ojo tachado. Al revelar -> ojo abierto. */
+.input-icon .toggle-eye .eye-shown { display: none; }
+.input-icon .toggle-eye.revealed .eye-hidden { display: none; }
+.input-icon .toggle-eye.revealed .eye-shown { display: flex; }
 .input-icon.is-invalid input, input.input-validation-error { border-color: var(--danger) !important; }
 .field-error { color: var(--danger); font-size: 12px; margin-top: 4px; display: block; }
 

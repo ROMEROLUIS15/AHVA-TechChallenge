@@ -15,6 +15,7 @@
                 }
                 const willShow = input.type === "password";
                 input.type = willShow ? "text" : "password";
+                btn.classList.toggle("revealed", willShow);
                 btn.setAttribute("aria-pressed", String(willShow));
             });
         });
