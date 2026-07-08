@@ -14,10 +14,13 @@
         </header>
 
         <main class="public-main">
-            <div class="auth-stack">
+            @RenderBody()
+
+            @* Avisos (p. ej. sesión expirada por inactividad): toast anclado abajo-derecha,
+               sobre el fondo y por encima del footer, tal como en el diseño (capture 7). *@
+            <div class="flash-toasts">
                 <partial name="_FlashMessages" />
             </div>
-            @RenderBody()
         </main>
 
         <footer class="public-footer">

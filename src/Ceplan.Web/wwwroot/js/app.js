@@ -129,10 +129,21 @@
         extendBtn === null || extendBtn === void 0 ? void 0 : extendBtn.addEventListener("click", extend);
         startInactivity();
     }
+    /** Auto-cierre de los toasts de aviso (p. ej. sesión expirada) tras unos segundos. */
+    function initToasts() {
+        const toasts = document.querySelectorAll(".flash-toasts .alert-ceplan");
+        toasts.forEach((toast) => {
+            window.setTimeout(() => {
+                toast.classList.add("is-hiding");
+                window.setTimeout(() => toast.remove(), 400);
+            }, 6000);
+        });
+    }
     document.addEventListener("DOMContentLoaded", () => {
         initPasswordToggle();
         initLoginValidation();
         initProfileTabs();
         initSessionTimeout();
+        initToasts();
     });
 })();

@@ -181,6 +181,23 @@ body {
 .alert-ceplan.info { border-color:#bcd3f5; color:#1b4a86; background:#eef4fd; }
 .alert-ceplan.error { border-color:#f0b4b4; color:#a12a2a; background:#fdecec; }
 .alert-ceplan.success { border-color:#b6ddb8; color:#256828; background:#eef7ee; }
+
+/* Toasts de avisos en el login: anclados abajo-derecha dentro del área principal
+   (por encima del footer), fondo blanco con acento lateral (ver diseño, capture 7). */
+.flash-toasts {
+  position: absolute; right: 24px; bottom: 24px; z-index: 20;
+  display: flex; flex-direction: column; gap: 10px;
+  max-width: 360px; pointer-events: none;  /* aviso informativo: nunca bloquea el formulario */
+}
+.flash-toasts .alert-ceplan { transition: opacity .4s ease; }
+.flash-toasts .alert-ceplan.is-hiding { opacity: 0; }
+.flash-toasts .alert-ceplan {
+  margin: 0; background:#fff; border-color:#e2e6ec; border-left-width:4px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.15);
+}
+.flash-toasts .alert-ceplan.info { border-left-color:#2c5fc4; }
+.flash-toasts .alert-ceplan.error { border-left-color:#c0392b; }
+.flash-toasts .alert-ceplan.success { border-left-color:#2e7d32; }
 .validation-summary-errors { color: var(--danger); font-size:13px; }
 .validation-summary-errors ul { margin:0; padding-left:16px; }
 .field-validation-error { color: var(--danger); font-size:12px; display:block; margin-top:4px; }
