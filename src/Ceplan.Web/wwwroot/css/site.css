@@ -83,7 +83,9 @@ body {
   padding: 10px 20px;
 }
 /* En el perfil (app), el identificador institucional va a la izquierda (diseño, capture 8). */
-.public-footer.app-footer { justify-content: flex-start; }
+/* En el perfil el identificador se alinea con el contenido (la "P" de "Perfil de usuario"):
+   sidebar (56px) + padding del contenido (34px) = 90px, según el diseño (capture 8). */
+.public-footer.app-footer { justify-content: flex-start; padding-left: 90px; }
 
 /* Bloque institucional del footer (alternativa a los logos oficiales) */
 .gov-brand { display: flex; align-items: stretch; height: 34px; font-size: 9px; line-height: 1.1; }
@@ -251,8 +253,9 @@ body {
 .profile-head .p-role { color:var(--muted); font-size:13px; margin-top:2px; }
 .profile-head .p-org { color:var(--muted); font-size:12px; }
 
-.tabs { display:flex; gap:28px; border-bottom:1px solid var(--line); margin:20px 0 22px; }
+.tabs { display:flex; border-bottom:1px solid var(--line); margin:20px 0 22px; }
 .tabs .tab {
+  flex:1; text-align:center;
   background:transparent; border:0; padding:10px 2px; font-size:14px; color:var(--muted);
   cursor:pointer; border-bottom:3px solid transparent; margin-bottom:-1px;
 }
@@ -269,6 +272,18 @@ body {
 }
 .ro-field .val.editable { justify-content:space-between; }
 .ro-field .val .pencil { color:#9aa2ad; }
+/* Campo opcional vacío: input editable (blanco con borde), no gris de solo-lectura (diseño). */
+.ro-field .val.editable-empty { background:#fff; border:1px solid var(--line); }
+/* Teléfono secundario: selector "Tipo ▾" (blanco) + input separado (gris), como el diseño. */
+.ro-field .phone-sec { display:flex; align-items:stretch; gap:8px; }
+.ro-field .phone-sec .tipo-select {
+  display:inline-flex; align-items:center; justify-content:space-between; gap:10px;
+  min-width:62px; padding:0 10px; min-height:38px;
+  border:1px solid var(--line); border-radius:6px; background:#fff;
+  font-size:13px; color:#6b7280;
+}
+.ro-field .phone-sec .tipo-select .caret { font-size:10px; color:#9aa2ad; }
+.ro-field .phone-sec .phone-input { flex:1; }
 .opt { color:#9aa2ad; font-weight:400; }
 
 /* ---------- Modal de expiración de sesión ---------- */

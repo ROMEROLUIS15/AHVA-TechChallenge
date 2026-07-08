@@ -45,12 +45,21 @@
                 <div class="val editable">@Model.PrimaryEmail <span class="pencil">@Html.Raw(IconSvg.Pencil)</span></div>
             </div>
 
-            <div class="ro-field"><label>Correo electrónico secundario <span class="opt">(Opcional)</span></label><div class="val">@Model.SecondaryEmail</div></div>
+            <div class="ro-field">
+                <label>Correo electrónico secundario <span class="opt">(Opcional)</span></label>
+                <div class="val@(string.IsNullOrWhiteSpace(Model.SecondaryEmail) ? " editable-empty" : "")">@Model.SecondaryEmail</div>
+            </div>
             <div class="ro-field">
                 <label>Teléfono Móvil</label>
                 <div class="val editable">@Model.MobilePhone <span class="pencil">@Html.Raw(IconSvg.Pencil)</span></div>
             </div>
-            <div class="ro-field"><label>Teléfono secundario <span class="opt">(Opcional)</span></label><div class="val">@Model.SecondaryPhone</div></div>
+            <div class="ro-field">
+                <label>Teléfono secundario <span class="opt">(Opcional)</span></label>
+                <div class="phone-sec">
+                    <span class="tipo-select">Tipo <span class="caret">▾</span></span>
+                    <span class="val phone-input">@Model.SecondaryPhone</span>
+                </div>
+            </div>
 
             <div class="ro-field"><label>Tipo de Contratación</label><div class="val">@Model.ContractType</div></div>
             <div class="ro-field"><label>Fecha de contratación</label><div class="val">@Model.ContractDate</div></div>
