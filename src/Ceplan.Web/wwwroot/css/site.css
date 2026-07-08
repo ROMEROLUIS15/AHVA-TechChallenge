@@ -2,8 +2,8 @@
    Portal de acceso CEPLAN — tema visual (aproximación fiel al diseño de Figma)
    ========================================================================== */
 :root {
-  --ceplan-red: #7c1d24;
-  --ceplan-red-dark: #6a171d;
+  --ceplan-red: #a81f28;
+  --ceplan-red-dark: #8c1a21;
   --primary: #2c5fc4;
   --primary-hover: #244fa6;
   --primary-disabled: #a9c1e8;
@@ -121,7 +121,8 @@ body {
   flex: 1; text-align: center; font-size: 13px; font-weight: 600; color: #6b7280;
   padding: 7px 0; border-radius: 6px; cursor: pointer; user-select: none; margin: 0;
 }
-.doc-toggle input:checked + label { background: #fff; color: var(--ceplan-red); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+/* Seleccionado: píldora oscura (slate) con texto blanco, como en el diseño de Figma. */
+.doc-toggle input:checked + label { background: #3f4b5b; color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.18); }
 
 /* Campos con icono */
 .field { margin-bottom: 14px; }
@@ -168,7 +169,7 @@ body {
   font-size: 12px; color: var(--muted);
 }
 .support-note a { color: var(--link); text-decoration: none; }
-.support-note .s-icon { color: var(--ceplan-red); display:flex; }
+.support-note .s-icon { color: var(--primary); display:flex; }
 
 .auth-stack { width: 100%; max-width: 380px; }
 
