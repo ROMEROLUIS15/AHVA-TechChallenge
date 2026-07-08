@@ -82,9 +82,12 @@ body {
   align-items: center;
   padding: 10px 20px;
 }
+/* En el perfil (app), el identificador institucional va a la izquierda (diseño, capture 8). */
+.public-footer.app-footer { justify-content: flex-start; }
 
 /* Bloque institucional del footer (alternativa a los logos oficiales) */
 .gov-brand { display: flex; align-items: stretch; height: 34px; font-size: 9px; line-height: 1.1; }
+.gov-brand .escudo { height: 34px; width: auto; object-fit: contain; margin-right: 6px; }
 .gov-brand .flag {
   background: var(--ceplan-red); color: #fff; font-weight: 700; font-size: 12px;
   display: flex; align-items: center; padding: 0 8px; letter-spacing: .5px;
