@@ -28,8 +28,16 @@
   <!-- Colina frontal -->
   <path d="M0 800 L300 740 L560 810 L820 750 L1120 820 L1440 770 L1440 900 L0 900 Z" fill="#d8d8d8"/>
   <!-- Llama silueta -->
-  <g fill="#cfcfcf" transform="translate(150,600)">
-    <path d="M40 90 C40 70 44 60 44 48 C44 40 40 34 40 26 C40 16 48 10 56 12 C62 14 62 22 60 28 C66 30 72 36 74 46 L80 96 L72 96 L68 62 C66 66 60 70 54 70 L58 120 L50 120 L46 92 L40 92 Z"/>
-    <path d="M56 12 C54 6 56 0 60 0 C64 0 66 6 64 12 Z"/>
+  <g fill="#cfcfcf" transform="translate(150,628)">
+    <rect x="26" y="58" width="5" height="34"/>
+    <rect x="38" y="58" width="5" height="34"/>
+    <rect x="54" y="58" width="5" height="34"/>
+    <rect x="66" y="58" width="5" height="34"/>
+    <ellipse cx="48" cy="50" rx="30" ry="15"/>
+    <path d="M18 44 C9 42 7 51 14 55 L21 50 Z"/>
+    <path d="M70 48 C74 32 76 24 80 14 L89 16 C87 28 85 38 79 54 Z"/>
+    <ellipse cx="87" cy="12" rx="8" ry="6"/>
+    <path d="M82 6 L84 -3 L87 6 Z"/>
+    <path d="M89 6 L91 -3 L93 6 Z"/>
   </g>
 </svg>

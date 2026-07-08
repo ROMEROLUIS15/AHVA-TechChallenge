@@ -1,6 +1,11 @@
 @model LoginViewModel
 @{
     ViewData["Title"] = "Iniciar sesión";
+    // Error de credenciales (ModelOnly): marca ambos campos en rojo como en el diseño,
+    // sin revelar cuál es incorrecto (seguridad por defecto).
+    var credError = ViewData.ModelState.TryGetValue(string.Empty, out var summaryErrors)
+        && summaryErrors.Errors.Count > 0;
+    var invalidClass = credError ? "is-invalid" : "";
 }
 <div class="auth-stack">
     <form class="auth-card" asp-controller="Account" asp-action="Login" method="post" id="loginForm" novalidate>
@@ -18,7 +23,7 @@
 
         <div class="field">
             <label class="field-label" asp-for="DocumentNumber">Usuario</label>
-            <div class="input-icon">
+            <div class="input-icon @invalidClass">
                 <span class="lead-icon">@Html.Raw(IconSvg.User)</span>
                 <input asp-for="DocumentNumber" placeholder="Ingresar usuario" autocomplete="username" data-doc-input inputmode="numeric" />
             </div>
@@ -27,7 +32,7 @@
 
         <div class="field">
             <label class="field-label" asp-for="Password">Contraseña</label>
-            <div class="input-icon">
+            <div class="input-icon @invalidClass">
                 <span class="lead-icon">@Html.Raw(IconSvg.Lock)</span>
                 <input asp-for="Password" type="password" placeholder="Ingresar contraseña" autocomplete="current-password" data-password-input />
                 <button type="button" class="toggle-eye" data-toggle-password aria-label="Mostrar u ocultar contraseña">@Html.Raw(IconSvg.Eye)</button>
