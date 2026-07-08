@@ -21,7 +21,9 @@
          data-keepalive-url="@Url.Action("KeepAlive", "Account")"
          data-expire-url="@Url.Action("SessionExpired", "Account")">
         <header class="app-topbar">
-            <a class="brand" href="@Url.Action("Index","Profile")">CEPLAN</a>
+            <a class="brand" href="@Url.Action("Index","Profile")" aria-label="CEPLAN">
+                <img class="brand-logo" src="~/img/ceplan-logo.png" alt="CEPLAN" />
+            </a>
             <span class="spacer"></span>
             <div class="top-actions">
                 <span class="icon" title="Ayuda">?</span>
