@@ -36,11 +36,17 @@ dotnet ef migrations add <Name> --project src/Ceplan.Infrastructure --startup-pr
 ```
 
 ```powershell
-dotnet test src/Ceplan.Tests/Ceplan.Tests.csproj    # xUnit unit tests
+dotnet test                                          # all test projects (unit + integration)
+dotnet test src/Ceplan.Tests                         # unit only (xUnit, in-memory fakes)
+dotnet test src/Ceplan.IntegrationTests              # integration (EF Core SQLite + real file storage)
 ```
 
-Tests cover `AuthenticationService` (credential validation, CVF counter, lockout, expiry)
-using in-memory fakes and a controllable `FakeClock` — no DB or SQL Server needed.
+- **Unit** (`Ceplan.Tests`): `AuthenticationService` (login/CVF/lockout with a `FakeClock`, no DB)
+  and `ProfileImageService` (avatar size/format validation).
+- **Integration** (`Ceplan.IntegrationTests`): avatar upload against a real EF Core context
+  (SQLite in-memory) + `FileSystemAvatarStorage` writing to a temp dir.
+- **E2E** (`tests/e2e`, Playwright, Node): drives the running app in a browser; needs the app
+  up. See `tests/e2e/README.md`.
 
 ### First-time setup (secrets are not committed)
 

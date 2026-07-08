@@ -1,23 +1,24 @@
 using Ceplan.Application.Abstractions;
 
-namespace Ceplan.Web.Storage;
+namespace Ceplan.Infrastructure.Storage;
 
 /// <summary>
-/// Implementación de <see cref="IAvatarStorage"/> que guarda las fotos bajo
-/// <c>wwwroot/uploads/avatars</c> (servidas como archivos estáticos). El nombre del archivo
-/// se genera en el servidor (id + GUID) para evitar colisiones y path traversal; nunca se
-/// usa el nombre que envía el cliente.
+/// Guarda las fotos de perfil en el sistema de archivos, bajo <c>{rootPath}/uploads/avatars</c>,
+/// y devuelve su ruta web pública. El nombre del archivo se genera en el servidor (id + GUID)
+/// para evitar colisiones y path traversal; nunca se usa el nombre que envía el cliente.
+/// No depende de ASP.NET: el <c>rootPath</c> (p. ej. wwwroot) se inyecta, lo que la hace
+/// testeable de forma aislada.
 /// </summary>
-public sealed class WebAvatarStorage : IAvatarStorage
+public sealed class FileSystemAvatarStorage : IAvatarStorage
 {
     private const string RelativeDir = "uploads/avatars";
-    private readonly IWebHostEnvironment _env;
+    private readonly string _rootPath;
 
-    public WebAvatarStorage(IWebHostEnvironment env) => _env = env;
+    public FileSystemAvatarStorage(string rootPath) => _rootPath = rootPath;
 
     public async Task<string> SaveAsync(int userId, Stream content, string extension, CancellationToken cancellationToken)
     {
-        var dir = Path.Combine(_env.WebRootPath, "uploads", "avatars");
+        var dir = Path.Combine(_rootPath, "uploads", "avatars");
         Directory.CreateDirectory(dir);
 
         var fileName = $"{userId}_{Guid.NewGuid():N}{extension.ToLowerInvariant()}";
@@ -45,7 +46,7 @@ public sealed class WebAvatarStorage : IAvatarStorage
             return;
         }
 
-        var fullPath = Path.Combine(_env.WebRootPath, relative.Replace('/', Path.DirectorySeparatorChar));
+        var fullPath = Path.Combine(_rootPath, relative.Replace('/', Path.DirectorySeparatorChar));
         if (File.Exists(fullPath))
         {
             File.Delete(fullPath);
