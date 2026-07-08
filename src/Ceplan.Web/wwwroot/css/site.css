@@ -212,7 +212,9 @@ body {
   background: var(--ceplan-red); color:#fff; height:56px; display:flex; align-items:center;
   padding: 0 18px; gap:16px;
 }
-.app-topbar .brand { font-weight:800; letter-spacing:1px; font-size:18px; color:#fff; text-decoration:none; }
+.app-topbar .brand { display:inline-flex; align-items:center; text-decoration:none; }
+/* Logo oficial de CEPLAN en blanco monocromo sobre el topbar rojo (como en el diseño). */
+.app-topbar .brand .brand-logo { height:30px; width:auto; filter: brightness(0) invert(1); }
 .app-topbar .spacer { flex:1; }
 .app-topbar .top-actions { display:flex; align-items:center; gap:18px; }
 .app-topbar .top-actions .icon { position:relative; display:flex; opacity:.95; color:#fff; }
