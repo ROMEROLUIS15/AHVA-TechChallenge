@@ -27,17 +27,24 @@
   </g>
   <!-- Colina frontal -->
   <path d="M0 800 L300 740 L560 810 L820 750 L1120 820 L1440 770 L1440 900 L0 900 Z" fill="#d8d8d8"/>
-  <!-- Llama silueta -->
+  <!-- Alpaca / llama estilizada (silueta más orgánica, menos genérica) -->
   <g fill="#cfcfcf" transform="translate(150,628)">
-    <rect x="26" y="58" width="5" height="34"/>
-    <rect x="38" y="58" width="5" height="34"/>
-    <rect x="54" y="58" width="5" height="34"/>
-    <rect x="66" y="58" width="5" height="34"/>
-    <ellipse cx="48" cy="50" rx="30" ry="15"/>
-    <path d="M18 44 C9 42 7 51 14 55 L21 50 Z"/>
-    <path d="M70 48 C74 32 76 24 80 14 L89 16 C87 28 85 38 79 54 Z"/>
-    <ellipse cx="87" cy="12" rx="8" ry="6"/>
-    <path d="M82 6 L84 -3 L87 6 Z"/>
-    <path d="M89 6 L91 -3 L93 6 Z"/>
+    <!-- patas -->
+    <path d="M26 64 q-2 15 0 28 q3 2 6 0 q1 -13 0 -28 z"/>
+    <path d="M38 66 q-2 14 -1 26 q3 2 6 0 q0 -12 0 -26 z"/>
+    <path d="M56 66 q-1 13 0 26 q3 2 6 0 q0 -12 -1 -26 z"/>
+    <path d="M68 64 q-1 15 1 28 q3 2 6 0 q1 -13 0 -28 z"/>
+    <!-- cuerpo mullido -->
+    <path d="M18 60 q-8 -26 24 -30 q30 -3 38 16 q6 12 -6 18 q-12 5 -28 4 q-20 -1 -28 -8 z"/>
+    <!-- cola -->
+    <path d="M14 50 q-10 -2 -6 10 q5 4 11 -2 z"/>
+    <!-- cuello y cabeza -->
+    <path d="M68 44 q3 -26 12 -42 q3 -6 9 -3 q6 3 3 10 q-8 20 -12 40 z"/>
+    <ellipse cx="90" cy="4" rx="9" ry="7"/>
+    <!-- hocico -->
+    <path d="M97 6 q6 0 8 4 q-3 4 -9 1 z"/>
+    <!-- orejas -->
+    <path d="M83 -1 l1 -12 l6 9 z"/>
+    <path d="M92 -2 l5 -11 l3 11 z"/>
   </g>
 </svg>
