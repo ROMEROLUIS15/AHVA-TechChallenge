@@ -16,5 +16,5 @@ docker compose up -d
 
 # 3) Ejecutar la app
 Write-Host "==> Iniciando la aplicacion en https://localhost:5443 ..." -ForegroundColor Cyan
-Write-Host "    Abre: https://localhost:5443/Account/Activation" -ForegroundColor Green
+Write-Host "    Abre: https://localhost:5443/  (inicia en Activacion)" -ForegroundColor Green
 dotnet run --project src/Ceplan.Web --urls "https://localhost:5443;http://localhost:5080"

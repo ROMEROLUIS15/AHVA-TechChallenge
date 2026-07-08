@@ -81,7 +81,9 @@ cd C:\dev\AHVA-TechChallenge
 .\run.ps1
 ```
 
-Luego abre 👉 **https://localhost:5443/Account/Activation**. Para detener la app: `Ctrl + C`.
+Luego abre 👉 **https://localhost:5443/** — la app inicia en la pantalla de
+**Activación** y desde "Iniciar sesión" pasa al Login (según el flujo del diseño).
+Para detener la app: `Ctrl + C`.
 
 > **Nota (una sola vez):** si PowerShell bloquea la ejecución de scripts, habilítalos con
 > `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` y vuelve a ejecutar `.\run.ps1`.

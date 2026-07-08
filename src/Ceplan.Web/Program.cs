@@ -59,9 +59,11 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// La plataforma abre en la pantalla de Activación (capture 1); desde ahí
+// "Iniciar sesión" redirige al Login, según el flujo del diseño (capture 9).
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+    pattern: "{controller=Account}/{action=Activation}/{id?}");
 
 // --- Migración + seed al arrancar (aplica migraciones pendientes y crea el usuario semilla) ---
 using (var scope = app.Services.CreateScope())
