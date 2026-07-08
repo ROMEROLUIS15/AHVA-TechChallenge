@@ -3,9 +3,9 @@
 **¿Qué hice?**
 Desarrollé una aplicación web en **ASP.NET Core MVC (.NET 8)** que replica el portal de
 acceso del diseño de Figma (CEPLAN/PCM): pantalla de activación, login con selector
-DNI/CE, validación de credenciales, bloqueo temporal por intentos fallidos y página de
-perfil de usuario. Incluye la lógica pedida: validación de usuario, control de errores
-y flujo de mensajes.
+DNI/CE, validación de credenciales, bloqueo temporal por intentos fallidos, página de
+perfil de usuario y cierre de sesión por inactividad (aviso con cuenta regresiva).
+Incluye la lógica pedida: validación de usuario, control de errores y flujo de mensajes.
 
 **¿Cómo lo abordé?**
 Trabajé **spec-driven** (OpenSpec): antes de codificar definí propuesta, diseño con
@@ -20,8 +20,10 @@ secretos no se versionan (User Secrets / variables de entorno).
 **¿Qué herramientas usé?**
 ASP.NET Core MVC, EF Core 8 (Code-First + migraciones), SQL Server en Docker,
 Bootstrap 5 + CSS propio para replicar el tema, TypeScript (compilado con `tsc`) para
-las interacciones de cliente (mostrar/ocultar contraseña, validación en vivo, tabs),
-y OpenSpec para el flujo spec-driven. Verifiqué el flujo de extremo a extremo (login
-correcto → perfil, credenciales inválidas, bloqueo al 5.º intento, acceso protegido).
+las interacciones de cliente (mostrar/ocultar contraseña, validación en vivo, tabs,
+modal de expiración de sesión), y OpenSpec para el flujo spec-driven. Añadí pruebas
+unitarias (xUnit) del login y la política de bloqueo usando un reloj falso. Verifiqué
+el flujo de extremo a extremo (login correcto → perfil, credenciales inválidas, bloqueo
+al 5.º intento, acceso protegido).
 
 **Usuario de prueba:** DNI `07079879` · contraseña `Ceplan2025$`.
