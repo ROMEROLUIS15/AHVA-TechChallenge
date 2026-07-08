@@ -1,0 +1,66 @@
+@{
+    var fullName = User.Identity?.Name ?? "Usuario";
+    var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "";
+    var initials = string.Concat(fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+        .Take(2).Select(p => p[0])).ToUpperInvariant();
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CEPLAN</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="app-shell">
+        <header class="app-topbar">
+            <a class="brand" href="@Url.Action("Index","Profile")">CEPLAN</a>
+            <span class="spacer"></span>
+            <div class="top-actions">
+                <span class="icon" title="Ayuda">?</span>
+                <span class="icon" title="Notificaciones">
+                    @Html.Raw(IconSvg.Bell)
+                    <span class="badge-dot">9+</span>
+                </span>
+                <div class="top-user">
+                    <div class="avatar">@initials</div>
+                    <div>
+                        @fullName
+                        <small>@role</small>
+                    </div>
+                </div>
+                <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="logout-btn">Salir</button>
+                </form>
+            </div>
+        </header>
+
+        <div class="app-body">
+            <nav class="app-sidebar">
+                <div class="nav-ico" title="Menú">@Html.Raw(IconSvg.Menu)</div>
+                <div class="nav-ico" title="Inicio">@Html.Raw(IconSvg.Home)</div>
+                <div class="nav-ico" title="Reportes">@Html.Raw(IconSvg.Chart)</div>
+                <div class="nav-ico active" title="Perfil">@Html.Raw(IconSvg.Doc)</div>
+                <div class="nav-ico" title="Buscar">@Html.Raw(IconSvg.Search)</div>
+            </nav>
+
+            <section class="app-content">
+                <partial name="_FlashMessages" />
+                @RenderBody()
+            </section>
+        </div>
+
+        <footer class="public-footer">
+            <partial name="_GovBrand" />
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/app.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

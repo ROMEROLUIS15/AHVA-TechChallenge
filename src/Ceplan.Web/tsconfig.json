@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "none",
+    "outFile": "wwwroot/js/app.js",
+    "rootDir": "Scripts",
+    "strict": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "lib": ["DOM", "DOM.Iterable", "ES2017"],
+    "sourceMap": false,
+    "removeComments": false
+  },
+  "include": ["Scripts/**/*.ts"]
+}

@@ -1,0 +1,17 @@
+@{
+    var info = TempData["Flash.Info"] as string;
+    var error = TempData["Flash.Error"] as string;
+    var success = TempData["Flash.Success"] as string;
+}
+@if (!string.IsNullOrEmpty(success))
+{
+    <div class="alert-ceplan success" role="alert">@Html.Raw(IconSvg.Info)<span>@success</span></div>
+}
+@if (!string.IsNullOrEmpty(info))
+{
+    <div class="alert-ceplan info" role="alert">@Html.Raw(IconSvg.Info)<span>@info</span></div>
+}
+@if (!string.IsNullOrEmpty(error))
+{
+    <div class="alert-ceplan error" role="alert">@Html.Raw(IconSvg.Info)<span>@error</span></div>
+}

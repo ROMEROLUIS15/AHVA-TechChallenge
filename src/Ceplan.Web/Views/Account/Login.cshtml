@@ -1,0 +1,51 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+<div class="auth-stack">
+    <form class="auth-card" asp-controller="Account" asp-action="Login" method="post" id="loginForm" novalidate>
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+
+        <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+
+        <div class="doc-toggle">
+            <input type="radio" asp-for="DocumentType" value="Dni" id="docDni" data-doc-type />
+            <label for="docDni">DNI</label>
+            <input type="radio" asp-for="DocumentType" value="Ce" id="docCe" data-doc-type />
+            <label for="docCe">CE</label>
+        </div>
+
+        <div class="field">
+            <label class="field-label" asp-for="DocumentNumber">Usuario</label>
+            <div class="input-icon">
+                <span class="lead-icon">@Html.Raw(IconSvg.User)</span>
+                <input asp-for="DocumentNumber" placeholder="Ingresar usuario" autocomplete="username" data-doc-input inputmode="numeric" />
+            </div>
+            <span asp-validation-for="DocumentNumber" class="field-validation-error"></span>
+        </div>
+
+        <div class="field">
+            <label class="field-label" asp-for="Password">Contraseña</label>
+            <div class="input-icon">
+                <span class="lead-icon">@Html.Raw(IconSvg.Lock)</span>
+                <input asp-for="Password" type="password" placeholder="Ingresar contraseña" autocomplete="current-password" data-password-input />
+                <button type="button" class="toggle-eye" data-toggle-password aria-label="Mostrar u ocultar contraseña">@Html.Raw(IconSvg.Eye)</button>
+            </div>
+            <span asp-validation-for="Password" class="field-validation-error"></span>
+        </div>
+
+        <a href="#" class="forgot-link">¿Olvidó su contraseña?</a>
+
+        <button type="submit" class="btn-primary-ceplan" data-login-submit>Ingresar</button>
+    </form>
+
+    <div class="support-note">
+        <span class="s-icon">@Html.Raw(IconSvg.Support)</span>
+        <span>¿Necesita ayuda?, <a href="#">contacte con el área de soporte</a>.</span>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

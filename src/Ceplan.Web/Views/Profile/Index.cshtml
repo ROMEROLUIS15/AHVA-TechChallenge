@@ -1,0 +1,66 @@
+@model ProfileViewModel
+@{
+    ViewData["Title"] = "Perfil de usuario";
+    Layout = "_LayoutApp";
+}
+<div class="breadcrumb-mini">Perfil de usuario</div>
+<h1 class="page-title">Perfil de usuario</h1>
+
+<div class="profile-card">
+    <div class="profile-head">
+        <div class="profile-avatar">@Html.Raw(IconSvg.User)</div>
+        <div>
+            <div class="p-name">
+                @Model.FullName
+                @if (Model.IsActive)
+                {
+                    <span class="badge-active">Activo</span>
+                }
+            </div>
+            <div class="p-role">@Model.Role</div>
+            <div class="p-org">@Model.Organization</div>
+        </div>
+    </div>
+
+    <div class="tabs" role="tablist">
+        <button type="button" class="tab active" data-tab-target="basica">Información básica</button>
+        <button type="button" class="tab" data-tab-target="resp">Responsabilidades</button>
+        <button type="button" class="tab" data-tab-target="hist">Historial de responsabilidades</button>
+    </div>
+
+    <div class="tab-panel active" data-tab-panel="basica">
+        <div class="field-grid">
+            <div class="ro-field"><label>Nombres</label><div class="val">@Model.FirstName</div></div>
+            <div class="ro-field"><label>Primer Apellido</label><div class="val">@Model.FirstLastName</div></div>
+            <div class="ro-field"><label>Segundo Apellido</label><div class="val">@Model.SecondLastName</div></div>
+
+            <div class="ro-field"><label>Tipo de Documento de Identidad</label><div class="val">@Model.DocumentTypeLabel</div></div>
+            <div class="ro-field"><label>N° de Documento de Identidad</label><div class="val">@Model.DocumentNumber</div></div>
+            <div class="ro-field"><label>Fecha de nacimiento</label><div class="val">@Model.BirthDate</div></div>
+
+            <div class="ro-field"><label>Nacionalidad</label><div class="val">@Model.Nationality</div></div>
+            <div class="ro-field"><label>Sexo</label><div class="val">@Model.Sex</div></div>
+            <div class="ro-field">
+                <label>Correo electrónico principal</label>
+                <div class="val editable">@Model.PrimaryEmail <span class="pencil">@Html.Raw(IconSvg.Pencil)</span></div>
+            </div>
+
+            <div class="ro-field"><label>Correo electrónico secundario <span class="opt">(Opcional)</span></label><div class="val">@Model.SecondaryEmail</div></div>
+            <div class="ro-field">
+                <label>Teléfono Móvil</label>
+                <div class="val editable">@Model.MobilePhone <span class="pencil">@Html.Raw(IconSvg.Pencil)</span></div>
+            </div>
+            <div class="ro-field"><label>Teléfono secundario <span class="opt">(Opcional)</span></label><div class="val">@Model.SecondaryPhone</div></div>
+
+            <div class="ro-field"><label>Tipo de Contratación</label><div class="val">@Model.ContractType</div></div>
+            <div class="ro-field"><label>Fecha de contratación</label><div class="val">@Model.ContractDate</div></div>
+        </div>
+    </div>
+
+    <div class="tab-panel" data-tab-panel="resp">
+        <div class="tab-empty">Sin responsabilidades registradas.</div>
+    </div>
+    <div class="tab-panel" data-tab-panel="hist">
+        <div class="tab-empty">Sin historial de responsabilidades.</div>
+    </div>
+</div>

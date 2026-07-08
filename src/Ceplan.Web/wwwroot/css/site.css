@@ -1,0 +1,249 @@
+/* ==========================================================================
+   Portal de acceso CEPLAN — tema visual (aproximación fiel al diseño de Figma)
+   ========================================================================== */
+:root {
+  --ceplan-red: #7c1d24;
+  --ceplan-red-dark: #6a171d;
+  --primary: #2c5fc4;
+  --primary-hover: #244fa6;
+  --primary-disabled: #a9c1e8;
+  --link: #2563eb;
+  --ink: #333333;
+  --muted: #6b7280;
+  --line: #e2e5ea;
+  --field-bg: #f3f4f6;
+  --page-bg: #efefef;
+  --danger: #d33a3a;
+  --ok: #2e7d32;
+  --font: "Segoe UI", "Open Sans", system-ui, -apple-system, Roboto, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--page-bg);
+}
+
+/* ---------- Layout público (activación / login / bloqueo) ---------- */
+.public-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.public-header {
+  background: var(--ceplan-red);
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 24px;
+  color: #fff;
+}
+
+.public-header .help-btn {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: .9;
+}
+
+.public-main {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  background-color: #f5f5f5;
+  background-image: url('/img/andes-bg.svg');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+}
+
+.public-footer {
+  border-top: 1px solid var(--line);
+  background: #fff;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+/* Bloque institucional del footer (alternativa a los logos oficiales) */
+.gov-brand { display: flex; align-items: stretch; height: 34px; font-size: 9px; line-height: 1.1; }
+.gov-brand .flag {
+  background: var(--ceplan-red); color: #fff; font-weight: 700; font-size: 12px;
+  display: flex; align-items: center; padding: 0 8px; letter-spacing: .5px;
+}
+.gov-brand .seg { background: #e9e9e9; color: #444; display: flex; align-items: center; padding: 0 8px; border-left: 2px solid #fff; max-width: 130px; }
+.gov-brand .seg.dark { background: #6b6b6b; color: #fff; }
+
+/* ---------- Tarjetas de autenticación ---------- */
+.auth-card {
+  background: #fff;
+  width: 100%;
+  max-width: 380px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.10);
+  padding: 32px 30px;
+}
+.auth-card.text-card { text-align: center; }
+
+.auth-icon-badge {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: #fde8ea; color: var(--ceplan-red);
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.auth-title { font-size: 18px; font-weight: 700; margin: 6px 0; }
+.auth-text { color: var(--muted); font-size: 13px; margin: 4px 0; }
+
+/* Toggle DNI / CE */
+.doc-toggle {
+  display: flex; background: #e9ecf1; border-radius: 8px; padding: 4px; margin-bottom: 18px;
+}
+.doc-toggle input { position: absolute; opacity: 0; pointer-events: none; }
+.doc-toggle label {
+  flex: 1; text-align: center; font-size: 13px; font-weight: 600; color: #6b7280;
+  padding: 7px 0; border-radius: 6px; cursor: pointer; user-select: none; margin: 0;
+}
+.doc-toggle input:checked + label { background: #fff; color: var(--ceplan-red); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+
+/* Campos con icono */
+.field { margin-bottom: 14px; }
+.field > label.field-label { display:block; font-size: 12px; color: #4b5563; margin-bottom: 4px; }
+.input-icon { position: relative; }
+.input-icon .lead-icon {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  color: #9aa2ad; pointer-events: none; display:flex;
+}
+.input-icon input {
+  width: 100%; height: 40px; border: 1px solid #d5d9e0; border-radius: 6px;
+  padding: 0 38px 0 34px; font-size: 14px; color: var(--ink); background: #fff;
+}
+.input-icon input::placeholder { color: #9aa2ad; }
+.input-icon input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,196,.12); }
+.input-icon .toggle-eye {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  background: transparent; border: 0; color: #9aa2ad; cursor: pointer; display:flex; padding:4px;
+}
+.input-icon.is-invalid input, input.input-validation-error { border-color: var(--danger) !important; }
+.field-error { color: var(--danger); font-size: 12px; margin-top: 4px; display: block; }
+
+.forgot-link { display:block; font-size: 12px; color: var(--link); text-decoration: none; margin: 2px 0 18px; }
+.forgot-link:hover { text-decoration: underline; }
+
+/* Botones */
+.btn-primary-ceplan {
+  width: 100%; height: 42px; border: 0; border-radius: 6px; background: var(--primary);
+  color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; transition: background .15s;
+  display:inline-flex; align-items:center; justify-content:center; text-decoration:none;
+}
+.btn-primary-ceplan:hover:not(:disabled) { background: var(--primary-hover); color:#fff; }
+.btn-primary-ceplan:disabled { background: var(--primary-disabled); cursor: not-allowed; }
+
+/* Ayuda / soporte bajo la tarjeta */
+.support-note {
+  width: 100%; margin: 14px 0 0; background: #fff; border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.06); padding: 12px 16px; display:flex; gap:10px; align-items:center;
+  font-size: 12px; color: var(--muted);
+}
+.support-note a { color: var(--link); text-decoration: none; }
+.support-note .s-icon { color: var(--ceplan-red); display:flex; }
+
+.auth-stack { width: 100%; max-width: 380px; }
+
+/* Alertas / flujo de mensajes */
+.flash-wrap { width: 100%; max-width: 380px; margin: 0 auto 12px; }
+.alert-ceplan {
+  border-radius: 8px; padding: 10px 14px; font-size: 13px; display:flex; gap:10px; align-items:flex-start;
+  border: 1px solid transparent; background:#fff; margin-bottom:10px;
+}
+.alert-ceplan.info { border-color:#bcd3f5; color:#1b4a86; background:#eef4fd; }
+.alert-ceplan.error { border-color:#f0b4b4; color:#a12a2a; background:#fdecec; }
+.alert-ceplan.success { border-color:#b6ddb8; color:#256828; background:#eef7ee; }
+.validation-summary-errors { color: var(--danger); font-size:13px; }
+.validation-summary-errors ul { margin:0; padding-left:16px; }
+.field-validation-error { color: var(--danger); font-size:12px; display:block; margin-top:4px; }
+
+/* ---------- Layout de aplicación (perfil) ---------- */
+.app-shell { min-height:100vh; display:flex; flex-direction:column; background:#f5f6f8; }
+.app-topbar {
+  background: var(--ceplan-red); color:#fff; height:56px; display:flex; align-items:center;
+  padding: 0 18px; gap:16px;
+}
+.app-topbar .brand { font-weight:800; letter-spacing:1px; font-size:18px; color:#fff; text-decoration:none; }
+.app-topbar .spacer { flex:1; }
+.app-topbar .top-actions { display:flex; align-items:center; gap:18px; }
+.app-topbar .top-actions .icon { position:relative; display:flex; opacity:.95; color:#fff; }
+.app-topbar .badge-dot {
+  position:absolute; top:-6px; right:-8px; background:#2c5fc4; color:#fff; font-size:9px;
+  border-radius:10px; padding:1px 5px;
+}
+.app-topbar .top-user { display:flex; align-items:center; gap:8px; font-size:12px; line-height:1.15; }
+.app-topbar .top-user .avatar { width:28px; height:28px; border-radius:50%; background:#ffffff33; display:flex; align-items:center; justify-content:center; }
+.app-topbar .top-user small { opacity:.8; display:block; }
+.logout-btn { background:transparent; border:1px solid #ffffff55; color:#fff; font-size:11px; border-radius:6px; padding:4px 10px; cursor:pointer; }
+.logout-btn:hover { background:#ffffff1a; }
+
+.app-body { flex:1; display:flex; }
+.app-sidebar {
+  width:56px; background:#fff; border-right:1px solid var(--line);
+  display:flex; flex-direction:column; align-items:center; padding-top:10px; gap:6px;
+}
+.app-sidebar .nav-ico {
+  width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+  color:#8a93a0; cursor:pointer;
+}
+.app-sidebar .nav-ico.active { color: var(--ceplan-red); background:#fbeaec; }
+.app-content { flex:1; padding: 22px 34px; }
+
+.breadcrumb-mini { font-size:12px; color:var(--muted); margin-bottom:2px; }
+.page-title { font-size:22px; font-weight:700; margin:0 0 18px; }
+
+.profile-card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:22px 26px; }
+.profile-head { display:flex; align-items:center; gap:16px; margin-bottom:6px; }
+.profile-avatar { width:72px; height:72px; border-radius:50%; background:#cfe0f5; display:flex; align-items:center; justify-content:center; color:#5b7fb4; }
+.profile-head .p-name { font-size:18px; font-weight:700; display:flex; align-items:center; gap:10px; }
+.badge-active { background:#e7f6e8; color:var(--ok); font-size:11px; font-weight:600; padding:2px 10px; border-radius:12px; }
+.profile-head .p-role { color:var(--muted); font-size:13px; margin-top:2px; }
+.profile-head .p-org { color:var(--muted); font-size:12px; }
+
+.tabs { display:flex; gap:28px; border-bottom:1px solid var(--line); margin:20px 0 22px; }
+.tabs .tab {
+  background:transparent; border:0; padding:10px 2px; font-size:14px; color:var(--muted);
+  cursor:pointer; border-bottom:3px solid transparent; margin-bottom:-1px;
+}
+.tabs .tab.active { color:var(--primary); border-bottom-color:var(--primary); font-weight:600; }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+.tab-empty { color:var(--muted); font-size:13px; padding:24px 0; text-align:center; }
+
+.field-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:16px 24px; }
+.ro-field label { display:block; font-size:12px; color:#4b5563; margin-bottom:4px; }
+.ro-field .val {
+  background:var(--field-bg); border:1px solid #eceef1; border-radius:6px; padding:9px 12px;
+  font-size:13px; color:#374151; min-height:38px; display:flex; align-items:center;
+}
+.ro-field .val.editable { justify-content:space-between; }
+.ro-field .val .pencil { color:#9aa2ad; }
+.opt { color:#9aa2ad; font-weight:400; }
+
+@media (max-width: 720px) {
+  .field-grid { grid-template-columns: 1fr; }
+  .app-content { padding: 16px; }
+}
