@@ -87,6 +87,21 @@ public sealed class AccountController : Controller
         return RedirectToAction(nameof(Login));
     }
 
+    /// <summary>Refresca la sesión (cookie deslizante) al "Extender sesión". Llamado por el cliente.</summary>
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    [HttpGet]
+    public IActionResult KeepAlive() => NoContent();
+
+    /// <summary>Expira la sesión por inactividad: cierra sesión y vuelve al login con aviso.</summary>
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    [HttpGet]
+    public async Task<IActionResult> SessionExpired()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        TempData["Flash.Info"] = "Su sesión ha expirado debido a inactividad. Por favor, inicie sesión nuevamente.";
+        return RedirectToAction(nameof(Login));
+    }
+
     private async Task SignInAsync(AuthenticatedUser user)
     {
         var claims = new List<Claim>

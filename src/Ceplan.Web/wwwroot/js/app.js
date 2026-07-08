@@ -68,9 +68,70 @@
             });
         });
     }
+    /** Timeout de sesión por inactividad: aviso con cuenta regresiva, extender o expirar. */
+    function initSessionTimeout() {
+        const shell = document.querySelector(".app-shell[data-session-inactivity]");
+        const modal = document.getElementById("sessionModal");
+        if (!shell || !modal) {
+            return;
+        }
+        const inactivityMs = parseInt(shell.dataset.sessionInactivity || "0", 10) * 1000;
+        const countdownSecs = parseInt(shell.dataset.sessionCountdown || "0", 10);
+        const keepAliveUrl = shell.dataset.keepaliveUrl || "";
+        const expireUrl = shell.dataset.expireUrl || "";
+        if (inactivityMs <= 0 || countdownSecs <= 0 || expireUrl === "") {
+            return;
+        }
+        const modalRoot = modal;
+        const remainingEl = modalRoot.querySelector("[data-session-remaining]");
+        const extendBtn = modalRoot.querySelector("[data-session-extend]");
+        let inactivityTimer = 0;
+        let countdownTimer = 0;
+        let remaining = countdownSecs;
+        const startInactivity = () => {
+            window.clearTimeout(inactivityTimer);
+            inactivityTimer = window.setTimeout(showWarning, inactivityMs);
+        };
+        function showWarning() {
+            remaining = countdownSecs;
+            if (remainingEl) {
+                remainingEl.textContent = String(remaining);
+            }
+            modalRoot.hidden = false;
+            countdownTimer = window.setInterval(() => {
+                remaining -= 1;
+                if (remainingEl) {
+                    remainingEl.textContent = String(Math.max(remaining, 0));
+                }
+                if (remaining <= 0) {
+                    window.clearInterval(countdownTimer);
+                    window.location.href = expireUrl;
+                }
+            }, 1000);
+        }
+        const extend = () => {
+            window.clearInterval(countdownTimer);
+            modalRoot.hidden = true;
+            if (keepAliveUrl !== "") {
+                fetch(keepAliveUrl, { credentials: "same-origin" }).catch(() => undefined);
+            }
+            startInactivity();
+        };
+        ["mousemove", "keydown", "click", "scroll"].forEach((evt) => {
+            document.addEventListener(evt, () => {
+                if (!modalRoot.hidden) {
+                    return;
+                }
+                startInactivity();
+            }, { passive: true });
+        });
+        extendBtn === null || extendBtn === void 0 ? void 0 : extendBtn.addEventListener("click", extend);
+        startInactivity();
+    }
     document.addEventListener("DOMContentLoaded", () => {
         initPasswordToggle();
         initLoginValidation();
         initProfileTabs();
+        initSessionTimeout();
     });
 })();

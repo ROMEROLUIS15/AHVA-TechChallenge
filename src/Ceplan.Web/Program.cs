@@ -20,6 +20,9 @@ builder.Services.AddInfrastructure(connectionString);
 builder.Services.Configure<LockoutOptions>(builder.Configuration.GetSection(LockoutOptions.SectionName));
 builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<LockoutOptions>>().Value);
 
+builder.Services.Configure<SessionTimeoutOptions>(builder.Configuration.GetSection(SessionTimeoutOptions.SectionName));
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<SessionTimeoutOptions>>().Value);
+
 // --- Autenticación por cookie (sin ASP.NET Core Identity) ---
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

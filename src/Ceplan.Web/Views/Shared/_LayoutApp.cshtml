@@ -4,6 +4,7 @@
     var initials = string.Concat(fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries)
         .Take(2).Select(p => p[0])).ToUpperInvariant();
 }
+@inject SessionTimeoutOptions SessionOpts
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,7 +15,11 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <div class="app-shell">
+    <div class="app-shell"
+         data-session-inactivity="@SessionOpts.InactivitySeconds"
+         data-session-countdown="@SessionOpts.CountdownSeconds"
+         data-keepalive-url="@Url.Action("KeepAlive", "Account")"
+         data-expire-url="@Url.Action("SessionExpired", "Account")">
         <header class="app-topbar">
             <a class="brand" href="@Url.Action("Index","Profile")">CEPLAN</a>
             <span class="spacer"></span>
@@ -56,6 +61,20 @@
         <footer class="public-footer">
             <partial name="_GovBrand" />
         </footer>
+
+        <div class="session-modal" id="sessionModal" hidden>
+            <div class="session-dialog">
+                <div class="session-warn-icon">@Html.Raw(IconSvg.Info)</div>
+                <div>
+                    <div class="session-title">Su sesión está a punto de expirar</div>
+                    <p class="session-text">
+                        Por seguridad, su sesión expirará en <span data-session-remaining>--</span> segundos.
+                        Para continuar, seleccione "Extender sesión".
+                    </p>
+                    <button type="button" class="btn-extend" data-session-extend>Extender sesión</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
