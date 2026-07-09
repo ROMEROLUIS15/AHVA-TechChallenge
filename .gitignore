@@ -61,10 +61,9 @@ docker-data/
 mssql-data/
 
 # ---------------------------------------------------------------------------
-# Notas personales / apoyo (NO versionar)
+# Archivos locales de apoyo (cualquier extensión) — NO versionar
 # ---------------------------------------------------------------------------
-GUION-VIDEO.*
-*.local.md
+*.local.*
 
 # ---------------------------------------------------------------------------
 # IDE / OS
